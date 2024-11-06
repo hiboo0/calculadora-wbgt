@@ -11,8 +11,9 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
             margin: 0;
+            padding: 20px;
         }
         .container {
             max-width: 400px;
@@ -61,7 +62,26 @@
             margin-top: 20px;
             font-weight: bold;
             font-size: 1.1em;
-            color: #333;
+            padding: 10px;
+            border-radius: 8px;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+        .safe {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .warning {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+        .danger {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        .info {
+            margin-top: 20px;
+            text-align: left;
         }
     </style>
 </head>
@@ -72,35 +92,53 @@
         <input type="number" id="temperature" placeholder="Temperatura actual (°C)" required>
         <input type="number" id="humidity" placeholder="Humedad actual (%)" required>
 
-        <button onclick="calculateThermalStress()">Calcular</button>
+        <button onclick="calculateStress()">Calcular</button>
 
         <div class="result" id="result"></div>
+
+        <div class="info">
+            <h3>Niveles de Precaución:</h3>
+            <ul>
+                <li><strong style="color: #155724;">Verde (Condiciones Seguras):</strong> Puedes trabajar al aire libre con normalidad.</li>
+                <li><strong style="color: #856404;">Amarillo (Advertencia):</strong> Toma descansos frecuentes y mantente hidratado.</li>
+                <li><strong style="color: #721c24;">Rojo (Precaución):</strong> Evita trabajos al aire libre en estas condiciones, si es posible.</li>
+            </ul>
+        </div>
     </div>
 
     <script>
-        function calculateThermalStress() {
+        function calculateStress() {
             const temp = parseFloat(document.getElementById('temperature').value);
             const humidity = parseFloat(document.getElementById('humidity').value);
+            const resultDiv = document.getElementById('result');
 
             if (isNaN(temp) || isNaN(humidity)) {
-                document.getElementById('result').innerHTML = "Por favor, ingresa valores válidos para temperatura y humedad.";
+                resultDiv.innerHTML = "Por favor, ingresa valores válidos para temperatura y humedad.";
+                resultDiv.className = "result danger";
+                resultDiv.style.opacity = 1;
                 return;
             }
 
-            // Fórmula simplificada para el cálculo
-            const thermalStressIndex = 0.7 * temp + 0.3 * (humidity / 100 * temp);
+            // Fórmula simplificada para el cálculo de índice de estrés térmico
+            const stressIndex = 0.7 * temp + 0.3 * (humidity / 100 * temp);
 
             let mensaje = "";
+            let className = "";
 
-            if (thermalStressIndex >= 30) {
-                mensaje = "Precaución: Evita trabajos al aire libre en estas condiciones, si es posible.";
-            } else if (thermalStressIndex >= 25) {
-                mensaje = "Advertencia: Toma descansos frecuentes y mantente hidratado.";
+            if (stressIndex >= 30) {
+                mensaje = `El índice es: ${stressIndex.toFixed(2)} °C. Precaución: Evita trabajos al aire libre en estas condiciones, si es posible.`;
+                className = "result danger";
+            } else if (stressIndex >= 25) {
+                mensaje = `El índice es: ${stressIndex.toFixed(2)} °C. Advertencia: Toma descansos frecuentes y mantente hidratado.`;
+                className = "result warning";
             } else {
-                mensaje = "Condiciones seguras: Puedes trabajar al aire libre con normalidad.";
+                mensaje = `El índice es: ${stressIndex.toFixed(2)} °C. Condiciones seguras: Puedes trabajar al aire libre con normalidad.`;
+                className = "result safe";
             }
 
-            document.getElementById('result').innerHTML = `El índice de estrés térmico es: ${thermalStressIndex.toFixed(2)} °C. ${mensaje}`;
+            resultDiv.innerHTML = mensaje;
+            resultDiv.className = className;
+            resultDiv.style.opacity = 1;
         }
     </script>
 </body>
