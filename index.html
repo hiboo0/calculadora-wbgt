@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora de Estrés Térmico WBGT</title>
+    <title>Calculadora de Estrés Térmico</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -67,18 +67,18 @@
 </head>
 <body>
     <div class="container">
-        <h1>Calculadora de Estrés Térmico WBGT</h1>
+        <h1>Calculadora de Estrés Térmico</h1>
 
         <input type="number" id="temperature" placeholder="Temperatura actual (°C)" required>
         <input type="number" id="humidity" placeholder="Humedad actual (%)" required>
 
-        <button onclick="calculateWBGT()">Calcular WBGT</button>
+        <button onclick="calculateThermalStress()">Calcular</button>
 
         <div class="result" id="result"></div>
     </div>
 
     <script>
-        function calculateWBGT() {
+        function calculateThermalStress() {
             const temp = parseFloat(document.getElementById('temperature').value);
             const humidity = parseFloat(document.getElementById('humidity').value);
 
@@ -87,21 +87,22 @@
                 return;
             }
 
-            // Fórmula simplificada para el cálculo de WBGT
-            const wbgt = 0.7 * temp + 0.3 * (humidity / 100 * temp);
+            // Fórmula simplificada para el cálculo
+            const thermalStressIndex = 0.7 * temp + 0.3 * (humidity / 100 * temp);
 
             let mensaje = "";
 
-            if (wbgt >= 30) {
+            if (thermalStressIndex >= 30) {
                 mensaje = "Precaución: Evita trabajos al aire libre en estas condiciones, si es posible.";
-            } else if (wbgt >= 25) {
+            } else if (thermalStressIndex >= 25) {
                 mensaje = "Advertencia: Toma descansos frecuentes y mantente hidratado.";
             } else {
                 mensaje = "Condiciones seguras: Puedes trabajar al aire libre con normalidad.";
             }
 
-            document.getElementById('result').innerHTML = `El índice WBGT es: ${wbgt.toFixed(2)} °C. ${mensaje}`;
+            document.getElementById('result').innerHTML = `El índice de estrés térmico es: ${thermalStressIndex.toFixed(2)} °C. ${mensaje}`;
         }
     </script>
 </body>
 </html>
+
