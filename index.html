@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Estrés Térmico WBGT</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7f6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            max-width: 400px;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            text-align: center;
+            color: #333;
+        }
+        h1 {
+            font-size: 1.5em;
+            color: #4a90e2;
+            margin-bottom: 20px;
+        }
+        input {
+            width: 90%;
+            padding: 12px;
+            margin: 8px 0;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-sizing: border-box;
+            transition: border 0.3s;
+        }
+        input:focus {
+            border-color: #4a90e2;
+            outline: none;
+        }
+        button {
+            background-color: #4a90e2;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 15px;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #357ABD;
+        }
+        .result {
+            margin-top: 20px;
+            font-weight: bold;
+            font-size: 1.1em;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Calculadora de Estrés Térmico WBGT</h1>
+
+        <input type="number" id="temperature" placeholder="Temperatura actual (°C)" required>
+        <input type="number" id="humidity" placeholder="Humedad actual (%)" required>
+
+        <button onclick="calculateWBGT()">Calcular WBGT</button>
+
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        function calculateWBGT() {
+            const temp = parseFloat(document.getElementById('temperature').value);
+            const humidity = parseFloat(document.getElementById('humidity').value);
+
+            if (isNaN(temp) || isNaN(humidity)) {
+                document.getElementById('result').innerHTML = "Por favor, ingresa valores válidos para temperatura y humedad.";
+                return;
+            }
+
+            // Fórmula simplificada para el cálculo de WBGT
+            const wbgt = 0.7 * temp + 0.3 * (humidity / 100 * temp);
+
+            let mensaje = "";
+
+            if (wbgt >= 30) {
+                mensaje = "Precaución: Evita trabajos al aire libre en estas condiciones, si es posible.";
+            } else if (wbgt >= 25) {
+                mensaje = "Advertencia: Toma descansos frecuentes y mantente hidratado.";
+            } else {
+                mensaje = "Condiciones seguras: Puedes trabajar al aire libre con normalidad.";
+            }
+
+            document.getElementById('result').innerHTML = `El índice WBGT es: ${wbgt.toFixed(2)} °C. ${mensaje}`;
+        }
+    </script>
+</body>
+</html>
