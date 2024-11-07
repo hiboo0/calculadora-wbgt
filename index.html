@@ -114,6 +114,54 @@
             background-color: #ffebee;
             color: #e53935;
         }
+
+        /* Secciones de información */
+        .info, .quienes-somos, .estres-termico {
+            max-width: 600px;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            margin: 20px 0;
+            animation: fadeInSection 1s ease-in;
+            transition: transform 0.3s;
+        }
+
+        .info:hover, .quienes-somos:hover, .estres-termico:hover {
+            transform: scale(1.02);
+        }
+
+        /* Animación de entrada para secciones */
+        @keyframes fadeInSection {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Estilo para los enlaces */
+        a {
+            color: #5a9ea4;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* Listado de niveles de precaución */
+        ul {
+            padding-left: 20px;
+        }
+
+        ul li {
+            list-style: none;
+            margin: 10px 0;
+        }
+
+        ul li::before {
+            content: "• ";
+            color: #5a9ea4;
+        }
     </style>
 </head>
 <body>
@@ -129,6 +177,42 @@
         <div class="result" id="result"></div>
     </div>
 
+    <!-- Información sobre estrés térmico -->
+    <div class="estres-termico">
+        <h3>¿Qué es el Estrés Térmico?</h3>
+        <p>El estrés térmico es una condición que ocurre cuando el cuerpo es incapaz de mantener una temperatura interna segura debido al calor y la humedad del ambiente. En estas condiciones, el cuerpo tiene dificultades para enfriarse adecuadamente, lo que puede llevar a un aumento de la temperatura interna.</p>
+
+        <h3>Posibles Efectos del Estrés Térmico</h3>
+        <p>El estrés térmico puede ocasionar efectos negativos en la salud, tales como:</p>
+        <ul>
+            <li><strong>Calambres por calor:</strong> espasmos dolorosos causados por la pérdida de sales y minerales debido a la sudoración excesiva.</li>
+            <li><strong>Agotamiento por calor:</strong> cansancio extremo, mareos, náuseas y debilidad.</li>
+            <li><strong>Golpe de calor:</strong> una condición grave que ocurre cuando la temperatura corporal alcanza niveles peligrosos, lo que puede dañar los órganos y ser potencialmente mortal si no se trata.</li>
+        </ul>
+    </div>
+
+    <!-- Explicación de cómo usar la calculadora -->
+    <div class="info">
+        <h3>¿Cómo usar la Calculadora?</h3>
+        <p>Ingresa la temperatura y la humedad actual de tu área y presiona el botón "Calcular". Para obtener la temperatura y la humedad actual de Paraguay, puedes consultar el <a href="https://www.meteorologia.gov.py" target="_blank">sitio de meteorología de Paraguay</a> y cargar estos datos en la calculadora.</p>
+
+        <h3>¿Para qué sirve esta calculadora?</h3>
+        <p>Esta calculadora utiliza el índice de calor para evaluar el riesgo de estrés térmico. Esto es especialmente útil en Paraguay, donde el clima es muy caluroso y húmedo, aumentando el riesgo de efectos negativos en la salud durante actividades al aire libre.</p>
+
+        <h3>Niveles de Precaución:</h3>
+        <ul>
+            <li><strong style="color: #4caf50;">Verde (Condiciones Seguras):</strong> Puedes realizar actividades al aire libre con normalidad.</li>
+            <li><strong style="color: #ffb300;">Amarillo (Advertencia):</strong> Toma descansos frecuentes y mantente hidratado.</li>
+            <li><strong style="color: #e53935;">Rojo (Precaución):</strong> Evita realizar actividades al aire libre en estas condiciones, si es posible.</li>
+        </ul>
+    </div>
+
+    <!-- Sección "¿Quiénes somos?" -->
+    <div class="quienes-somos">
+        <h3>¿Quiénes somos?</h3>
+        <p>Nosotros somos Patricio Boltes y Fernanda Gómez, alumnos del Colegio Japonés Paraguayo, y este es nuestro proyecto. Buscamos que las personas utilicen nuestra página como una herramienta para estar al tanto de los riesgos que conlleva el estrés térmico, especialmente por el clima caliente de Paraguay, y al conocer sobre esto puedan tomar medidas preventivas y evitar problemas relacionados al calor.</p>
+    </div>
+
     <script>
         function calculateStress() {
             const temp = parseFloat(document.getElementById('temperature').value);
@@ -136,32 +220,28 @@
             const resultDiv = document.getElementById('result');
 
             if (isNaN(temp) || isNaN(humidity)) {
-                resultDiv.innerHTML = "Por favor, ingresa valores válidos para temperatura y humedad.";
-                resultDiv.className = "result danger";
+                resultDiv.innerHTML = 'Por favor ingresa valores válidos.';
+                resultDiv.className = 'result';
                 return;
             }
 
-            // Fórmula simplificada para el cálculo del índice
-            const stressIndex = temp + 0.1 * humidity;
+            // Cálculo del índice de calor aproximado
+            const heatIndex = -8.784695 + 1.61139411 * temp + 2.338549 * humidity - 0.14611605 * temp * humidity
+                              - 0.012308094 * (temp ** 2) - 0.016424828 * (humidity ** 2) 
+                              + 0.002211732 * (temp ** 2) * humidity + 0.00072546 * temp * (humidity ** 2) 
+                              - 0.000003582 * (temp ** 2) * (humidity ** 2);
 
-            let mensaje = "";
-            let className = "";
-
-            if (stressIndex >= 40) {
-                mensaje = `El índice es: ${stressIndex.toFixed(2)} °C. Precaución: Evita realizar actividades al aire libre en estas condiciones, si es posible.`;
-                className = "result danger";
-            } else if (stressIndex >= 30) {
-                mensaje = `El índice es: ${stressIndex.toFixed(2)} °C. Advertencia: Toma descansos frecuentes y mantente hidratado.`;
-                className = "result warning";
+            // Determinar el nivel de precaución basado en el índice de calor
+            resultDiv.style.opacity = '1';
+            if (heatIndex < 27) {
+                resultDiv.innerHTML = `Condiciones seguras. Índice de calor: ${heatIndex.toFixed(1)}°C`;
+                resultDiv.className = 'result safe';
+            } else if (heatIndex >= 27 && heatIndex < 32) {
+                resultDiv.innerHTML = `Advertencia: Mantente hidratado y toma descansos. Índice de calor: ${heatIndex.toFixed(1)}°C`;
+                resultDiv.className = 'result warning';
             } else {
-                mensaje = `El índice es: ${stressIndex.toFixed(2)} °C. Condiciones seguras: Puedes realizar actividades al aire libre con normalidad.`;
-                className = "result safe";
+                resultDiv.innerHTML = `Precaución extrema: Evita actividades al aire libre. Índice de calor: ${heatIndex.toFixed(1)}°C`;
+                resultDiv.className = 'result danger';
             }
-
-            resultDiv.innerHTML = mensaje;
-            resultDiv.className = className;
         }
-    </script>
-</body>
-</html>
-
+</script>
