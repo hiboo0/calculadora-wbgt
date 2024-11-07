@@ -7,24 +7,25 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f7f6;
+            background-color: #f0f8ff;
+            color: #333;
+            margin: 0;
+            padding: 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            margin: 0;
-            padding: 20px;
-            color: #333;
         }
 
-        /* Estilo del título con fade-in */
+        /* Estilo del título principal con animación */
         .title {
-            font-size: 2em;
-            color: #4a90e2;
+            font-size: 2.5em;
+            color: #1e90ff;
             margin: 20px 0;
             opacity: 0;
             animation: fadeIn 1.5s ease-in forwards;
+            text-align: center;
         }
-        
+
         /* Fade-in animation */
         @keyframes fadeIn {
             from { opacity: 0; }
@@ -32,13 +33,13 @@
         }
 
         .container {
-            max-width: 400px;
+            max-width: 500px;
             background-color: #ffffff;
             border-radius: 12px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             padding: 20px;
             text-align: center;
-            margin-bottom: 20px;
+            margin: 20px 0;
         }
 
         input {
@@ -51,12 +52,14 @@
             box-sizing: border-box;
             transition: border 0.3s;
         }
+
         input:focus {
-            border-color: #4a90e2;
+            border-color: #1e90ff;
             outline: none;
         }
+
         button {
-            background-color: #4a90e2;
+            background-color: #1e90ff;
             color: white;
             padding: 12px 20px;
             border: none;
@@ -67,9 +70,11 @@
             margin-top: 15px;
             transition: background-color 0.3s;
         }
+
         button:hover {
-            background-color: #357ABD;
+            background-color: #187bcd;
         }
+
         .result {
             margin-top: 20px;
             font-weight: bold;
@@ -79,21 +84,35 @@
             opacity: 0;
             transition: opacity 0.5s ease-in-out;
         }
+
         .safe {
             background-color: #d4edda;
             color: #155724;
         }
+
         .warning {
             background-color: #fff3cd;
             color: #856404;
         }
+
         .danger {
             background-color: #f8d7da;
             color: #721c24;
         }
-        .info {
-            text-align: left;
+
+        .info, .quienes-somos {
             max-width: 600px;
+            text-align: left;
+            margin: 20px 0;
+        }
+
+        a {
+            color: #1e90ff;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
@@ -113,10 +132,10 @@
     <!-- Explicación y cómo usar la calculadora -->
     <div class="info">
         <h3>¿Cómo usar la Calculadora?</h3>
-        <p>Ingresa la temperatura y la humedad actual en tu área y presiona el botón "Calcular". Esta herramienta está diseñada especialmente para Paraguay y te ayudará a saber si es seguro realizar actividades al aire libre según las condiciones climáticas.</p>
+        <p>Ingresa la temperatura y la humedad actual de tu área y presiona el botón "Calcular". Para obtener la temperatura y la humedad actual de Paraguay, visita el <a href="https://www.meteorologia.gov.py" target="_blank">sitio de meteorología de Paraguay</a> y carga estos datos en la calculadora.</p>
 
         <h3>¿Para qué sirve esta calculadora?</h3>
-        <p>La calculadora utiliza el índice de calor, una medida que considera la temperatura del ambiente y el nivel de humedad para evaluar el riesgo de estrés térmico. Esto es crucial en ambientes calurosos y húmedos, ya que una alta combinación de ambos puede representar un riesgo para la salud durante actividades al aire libre.</p>
+        <p>La calculadora utiliza el índice de calor (heat index), una medida que considera la temperatura del ambiente y el nivel de humedad para evaluar el riesgo de estrés térmico. Esto es especialmente relevante en Paraguay, donde el clima puede ser muy caluroso y húmedo, aumentando el riesgo de efectos negativos en la salud durante actividades al aire libre.</p>
 
         <h3>Niveles de Precaución:</h3>
         <ul>
@@ -124,6 +143,12 @@
             <li><strong style="color: #856404;">Amarillo (Advertencia):</strong> Toma descansos frecuentes y mantente hidratado.</li>
             <li><strong style="color: #721c24;">Rojo (Precaución):</strong> Evita realizar actividades al aire libre en estas condiciones, si es posible.</li>
         </ul>
+    </div>
+
+    <!-- Sección "¿Quiénes somos?" -->
+    <div class="quienes-somos">
+        <h3>¿Quiénes somos?</h3>
+        <p>Nosotros somos Patricio Boltes y Fernanda Gómez, alumnos del Colegio Japonés Paraguayo, y este es nuestro proyecto. Buscamos que las personas utilicen nuestra página como una herramienta para estar al tanto de los riesgos que conlleva el estrés térmico, especialmente por el clima caliente de Paraguay, y al conocer sobre esto puedan tomar medidas preventivas y evitar problemas relacionados al calor.</p>
     </div>
 
     <script>
@@ -163,4 +188,3 @@
     </script>
 </body>
 </html>
-
