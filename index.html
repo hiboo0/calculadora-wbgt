@@ -3,18 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora de Estrés Térmico</title>
+    <title>Calculamos tu Bienestar</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f7f6;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
-            min-height: 100vh;
             margin: 0;
             padding: 20px;
+            color: #333;
         }
+
+        /* Estilo del título con fade-in */
+        .title {
+            font-size: 2em;
+            color: #4a90e2;
+            margin: 20px 0;
+            opacity: 0;
+            animation: fadeIn 1.5s ease-in forwards;
+        }
+        
+        /* Fade-in animation */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
         .container {
             max-width: 400px;
             background-color: #ffffff;
@@ -22,13 +38,9 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             padding: 20px;
             text-align: center;
-            color: #333;
-        }
-        h1 {
-            font-size: 1.5em;
-            color: #4a90e2;
             margin-bottom: 20px;
         }
+
         input {
             width: 90%;
             padding: 12px;
@@ -80,30 +92,38 @@
             color: #721c24;
         }
         .info {
-            margin-top: 20px;
             text-align: left;
+            max-width: 600px;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Calculadora de Estrés Térmico</h1>
+    <!-- Título principal animado -->
+    <h1 class="title">Calculamos tu Bienestar</h1>
 
+    <!-- Calculadora -->
+    <div class="container">
+        <h2>Calculadora de Estrés Térmico</h2>
         <input type="number" id="temperature" placeholder="Temperatura actual (°C)" required>
         <input type="number" id="humidity" placeholder="Humedad actual (%)" required>
-
         <button onclick="calculateStress()">Calcular</button>
-
         <div class="result" id="result"></div>
+    </div>
 
-        <div class="info">
-            <h3>Niveles de Precaución:</h3>
-            <ul>
-                <li><strong style="color: #155724;">Verde (Condiciones Seguras):</strong> Puedes trabajar al aire libre con normalidad.</li>
-                <li><strong style="color: #856404;">Amarillo (Advertencia):</strong> Toma descansos frecuentes y mantente hidratado.</li>
-                <li><strong style="color: #721c24;">Rojo (Precaución):</strong> Evita trabajos al aire libre en estas condiciones, si es posible.</li>
-            </ul>
-        </div>
+    <!-- Explicación y cómo usar la calculadora -->
+    <div class="info">
+        <h3>¿Cómo usar la Calculadora?</h3>
+        <p>Ingresa la temperatura y la humedad actual en tu área y presiona el botón "Calcular". Esta herramienta está diseñada especialmente para Paraguay y te ayudará a saber si es seguro realizar actividades al aire libre según las condiciones climáticas.</p>
+
+        <h3>¿Para qué sirve esta calculadora?</h3>
+        <p>La calculadora utiliza el índice de calor, una medida que considera la temperatura del ambiente y el nivel de humedad para evaluar el riesgo de estrés térmico. Esto es crucial en ambientes calurosos y húmedos, ya que una alta combinación de ambos puede representar un riesgo para la salud durante actividades al aire libre.</p>
+
+        <h3>Niveles de Precaución:</h3>
+        <ul>
+            <li><strong style="color: #155724;">Verde (Condiciones Seguras):</strong> Puedes realizar actividades al aire libre con normalidad.</li>
+            <li><strong style="color: #856404;">Amarillo (Advertencia):</strong> Toma descansos frecuentes y mantente hidratado.</li>
+            <li><strong style="color: #721c24;">Rojo (Precaución):</strong> Evita realizar actividades al aire libre en estas condiciones, si es posible.</li>
+        </ul>
     </div>
 
     <script>
@@ -126,13 +146,13 @@
             let className = "";
 
             if (stressIndex >= 30) {
-                mensaje = `El índice es: ${stressIndex.toFixed(2)} °C. Precaución: Evita trabajos al aire libre en estas condiciones, si es posible.`;
+                mensaje = `El índice es: ${stressIndex.toFixed(2)} °C. Precaución: Evita realizar actividades al aire libre en estas condiciones, si es posible.`;
                 className = "result danger";
             } else if (stressIndex >= 25) {
                 mensaje = `El índice es: ${stressIndex.toFixed(2)} °C. Advertencia: Toma descansos frecuentes y mantente hidratado.`;
                 className = "result warning";
             } else {
-                mensaje = `El índice es: ${stressIndex.toFixed(2)} °C. Condiciones seguras: Puedes trabajar al aire libre con normalidad.`;
+                mensaje = `El índice es: ${stressIndex.toFixed(2)} °C. Condiciones seguras: Puedes realizar actividades al aire libre con normalidad.`;
                 className = "result safe";
             }
 
